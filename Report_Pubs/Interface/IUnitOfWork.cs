@@ -4,6 +4,7 @@
     {
 
         IAnalysisRepository Analysis { get; }
+        IAuthorsBooksRepository AuthorsBooks { get; }
 
         void Save();
     }

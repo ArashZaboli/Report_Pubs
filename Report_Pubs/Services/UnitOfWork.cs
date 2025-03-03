@@ -9,10 +9,13 @@ namespace Report_Pubs.Services
 
         public IAnalysisRepository Analysis { get; private set; }
 
+        public IAuthorsBooksRepository AuthorsBooks { get; private set; }
+
         public UnitOfWork(PubsContext context)
         {
             _context = context;
             Analysis = new AnalysisRepository(_context);
+            AuthorsBooks = new AuthorsBooksRepository(_context);
         }
 
         public void Save()

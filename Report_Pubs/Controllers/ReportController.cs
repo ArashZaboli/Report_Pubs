@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Report_Pubs.Interface;
 using Report_Pubs.Models;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Report_Pubs.Controllers
 {
@@ -18,6 +20,19 @@ namespace Report_Pubs.Controllers
         {
             IEnumerable<AnalysisByPublisher> analyses = _unitOfWork.Analysis.GetAllAnalysis();
             return View(analyses);
+        }
+
+        public IActionResult DropDownList()
+        {
+            List<AuthorsBook> all = _unitOfWork.AuthorsBooks.GetAllAuthorsBooks();
+            ViewBag.Authors = new SelectList(
+                all.Where(b => b.FullName != null).GroupBy(b => b.FullName).Select(g => new
+            {
+            Id = g.First().Id, 
+            Name = g.Key}).ToList(), "Id", "Name"); ;
+
+
+            return View();
         }
     }
 }

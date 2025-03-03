@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewData["Title"] = "DropDownList";
+}
+
+@{
+    ViewBag.Title = "Books by Author";
+}
+
+<h2>Select Author</h2>
+
+<form id="authorForm">
+    <select id="authorSelect" name="authorId">
+        <option value="">Select Author</option>
+        @foreach (var author in ViewBag.Authors)
+        {
+            <option value="@author.Value">@author.Text</option>
+        }
+    </select>
+</form>
+
+<div id="booksTableContainer">
+    <!-- جدول کتاب‌ها اینجا بارگذاری می‌شود -->
+</div>
+
+@* @section scripts {
+    <script>
+        $(document).ready(function () {
+            $("#authorSelect").change(function () {
+                var authorId = $(this).val();
+                if (authorId) {
+                    $.ajax({
+                        url: '@Url.Action("GetBooksByAuthor", "Book")',
+                        type: 'POST',
+                        data: { authorId: authorId },
+                        success: function (data) {
+                            $('#booksTableContainer').html(data);
+                        }
+                    });
+                } else {
+                    $('#booksTableContainer').empty();
+                }
+            });
+        });
+    </script>
+} *@
+

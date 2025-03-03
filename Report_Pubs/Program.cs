@@ -21,6 +21,8 @@ namespace Report_Pubs
             builder.Services.AddTransient<ReportController>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IAnalysisRepository, AnalysisRepository>();
+            builder.Services.AddScoped<IAuthorsBooksRepository, AuthorsBooksRepository>();
+
 
             var app = builder.Build();
 
@@ -40,7 +42,7 @@ namespace Report_Pubs
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Report}/{action=BarChart}/{id?}")
+                pattern: "{controller=Report}/{action=DropDownList}/{id?}")
                 .WithStaticAssets();
 
             app.Run();

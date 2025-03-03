@@ -19,11 +19,15 @@ public partial class PubsContext : DbContext
 
     public virtual DbSet<Author> Authors { get; set; }
 
+    public virtual DbSet<AuthorsBook> AuthorsBooks { get; set; }
+
     public virtual DbSet<Discount> Discounts { get; set; }
 
     public virtual DbSet<Employee> Employees { get; set; }
 
     public virtual DbSet<Job> Jobs { get; set; }
+
+    public virtual DbSet<PubBook> PubBooks { get; set; }
 
     public virtual DbSet<PubInfo> PubInfos { get; set; }
 
@@ -103,6 +107,27 @@ public partial class PubsContext : DbContext
                 .IsUnicode(false)
                 .IsFixedLength()
                 .HasColumnName("zip");
+        });
+
+        modelBuilder.Entity<AuthorsBook>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("AuthorsBooks");
+
+            entity.Property(e => e.FullName)
+                .HasMaxLength(61)
+                .IsUnicode(false);
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Price).HasColumnType("money");
+            entity.Property(e => e.RealeseDate).HasColumnType("datetime");
+            entity.Property(e => e.Title)
+                .HasMaxLength(80)
+                .IsUnicode(false);
+            entity.Property(e => e.Type)
+                .HasMaxLength(12)
+                .IsUnicode(false)
+                .IsFixedLength();
         });
 
         modelBuilder.Entity<Discount>(entity =>
@@ -201,6 +226,27 @@ public partial class PubsContext : DbContext
                 .HasColumnName("job_desc");
             entity.Property(e => e.MaxLvl).HasColumnName("max_lvl");
             entity.Property(e => e.MinLvl).HasColumnName("min_lvl");
+        });
+
+        modelBuilder.Entity<PubBook>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("PubBooks");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(4)
+                .IsUnicode(false)
+                .IsFixedLength()
+                .HasColumnName("ID");
+            entity.Property(e => e.Price).HasColumnType("money");
+            entity.Property(e => e.PublisherName)
+                .HasMaxLength(40)
+                .IsUnicode(false);
+            entity.Property(e => e.RealeseDate).HasColumnType("datetime");
+            entity.Property(e => e.Title)
+                .HasMaxLength(80)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<PubInfo>(entity =>
