@@ -1,7 +1,117 @@
-﻿
-@{
-    ViewData["Title"] = "BarChart";
-}
+﻿@model List<AnalysisByPublisher>
 
-<h1>BarChart</h1>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .col-md-8 {
+            width: 50%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h2 class="text-center my-4">نمودار تعداد کتاب‌های هر ناشر</h2>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg p-4">
+                    <canvas id="publisherChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // ارسال داده‌ها از Razor به جاوااسکریپت
+            var labels = @Html.Raw(Json.Serialize(Model.Select(m => m.PubName).ToArray()));
+            var dataValues = @Html.Raw(Json.Serialize(Model.Select(m => m.Plus).ToArray()));
+
+            var ctx = document.getElementById('publisherChart').getContext('2d');
+            var colors = [
+                "rgba(255, 99, 132, 0.8)",
+                "rgba(54, 162, 235, 0.8)",
+                "rgba(255, 206, 86, 0.8)",
+                "rgba(75, 192, 192, 0.8)"
+            ];
+            var borderColors = [
+                "rgba(255, 99, 132, 1)",
+                "rgba(54, 162, 235, 1)",
+                "rgba(255, 206, 86, 1)",
+                "rgba(75, 192, 192, 1)"
+            ];
+
+            window.myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'تعداد کتاب‌ها',
+                        data: dataValues,
+                        backgroundColor: colors,
+                        borderColor: borderColors,
+                        borderWidth: 2,
+                        borderRadius: 10,
+                        barThickness: 50,
+                        hoverBackgroundColor: "rgba(0,0,0,0.4)",
+                        hoverBorderColor: "rgba(0,0,0,1)",
+                        barPercentage: 0.7,
+                        categoryPercentage: 0.8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: "rgba(200, 200, 200, 0.2)"
+                            },
+                            ticks: {
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: "rgba(200, 200, 200, 0.2)"
+                            },
+                            ticks: {
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeOutBounce'
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
 

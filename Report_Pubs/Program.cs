@@ -40,7 +40,7 @@ namespace Report_Pubs
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Report}/{action=BarChart}/{id?}")
                 .WithStaticAssets();
 
             app.Run();
