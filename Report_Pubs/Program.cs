@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using Report_Pubs.Controllers;
+using Report_Pubs.Interface;
 using Report_Pubs.Models;
+using Report_Pubs.Services;
 
 namespace Report_Pubs
 {
@@ -11,8 +14,13 @@ namespace Report_Pubs
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
             builder.Services.AddDbContext<PubsContext>(option =>
-            option.UseSqlServer(builder.Configuration.GetConnectionString("MyyyConnection")));
+                option.UseSqlServer(builder.Configuration.GetConnectionString("MyyyConnection")));
+
+            builder.Services.AddTransient<ReportController>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IAnalysisRepository, AnalysisRepository>();
 
             var app = builder.Build();
 
