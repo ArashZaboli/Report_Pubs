@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Report_Pubs.Interface;
 using Report_Pubs.Models;
 using static System.Reflection.Metadata.BlobBuilder;
@@ -32,7 +33,17 @@ namespace Report_Pubs.Controllers
             Name = g.Key}).ToList(), "Id", "Name"); ;
 
 
-            return View();
+            return View(all);
+        }
+
+        [HttpPost]
+        public IActionResult GetBooksByAuthor(long authorId)
+        {
+            List<AuthorsBook> all = _unitOfWork.AuthorsBooks.GetAllAuthorsBooks();
+            var books = all
+                                 .Where(b => b.Id == authorId)
+                                 .ToList(); // جستجو کتاب‌ها براساس نویسنده
+            return PartialView("_BooksTable", books);  // ارسال داده‌ها به partial view
         }
     }
 }

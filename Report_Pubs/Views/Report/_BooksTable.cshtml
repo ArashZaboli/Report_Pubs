@@ -1,0 +1,25 @@
+﻿@model IEnumerable<AuthorsBook>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Price</th>
+            <th>Release Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.FullName</td>
+                <td>@book.Title</td>
+                <td>@book.Type</td>
+                <td>@book.Price</td>
+                <td>@book.RealeseDate.ToString("dd/MM/yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>

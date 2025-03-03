@@ -1,11 +1,4 @@
 ﻿
-@{
-    ViewData["Title"] = "DropDownList";
-}
-
-@{
-    ViewBag.Title = "Books by Author";
-}
 
 <h2>Select Author</h2>
 
@@ -23,14 +16,14 @@
     <!-- جدول کتاب‌ها اینجا بارگذاری می‌شود -->
 </div>
 
-@* @section scripts {
+@section scripts {
     <script>
         $(document).ready(function () {
             $("#authorSelect").change(function () {
                 var authorId = $(this).val();
                 if (authorId) {
                     $.ajax({
-                        url: '@Url.Action("GetBooksByAuthor", "Book")',
+                        url: '@Url.Action("GetBooksByAuthor", "Report")',
                         type: 'POST',
                         data: { authorId: authorId },
                         success: function (data) {
@@ -43,5 +36,5 @@
             });
         });
     </script>
-} *@
+}
 
