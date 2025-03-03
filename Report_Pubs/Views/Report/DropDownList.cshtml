@@ -1,21 +1,23 @@
 ﻿
 
 <h2>Select Author</h2>
+<div class="container-fluid d-flex">
+    <div class="container" style="width: 25%;background-color: #88abda;;height: 100vh;">
 
-<form id="authorForm">
-    <select id="authorSelect" name="authorId">
-        <option value="">Select Author</option>
-        @foreach (var author in ViewBag.Authors)
-        {
-            <option value="@author.Value">@author.Text</option>
-        }
-    </select>
-</form>
-
-<div id="booksTableContainer">
-    <!-- جدول کتاب‌ها اینجا بارگذاری می‌شود -->
+        <form id="authorForm">
+            <select class="btn btn-secondary dropdown-toggle" id="authorSelect" name="authorId" style="margin-top: 20px;">
+                <option class="dropdown-item" value="">Select Author</option>
+                @foreach (var author in ViewBag.Authors)
+                {
+                    <option class="dropdown-item" value="@author.Value">@author.Text</option>
+                }
+            </select>
+        </form>
+    </div>
+    <div class="container" style="width: 75%;background-color: #bfcde1;height: 100vh;" id="booksTableContainer">
+        <!-- جدول کتاب‌ها اینجا بارگذاری می‌شود -->
+    </div>
 </div>
-
 @section scripts {
     <script>
         $(document).ready(function () {

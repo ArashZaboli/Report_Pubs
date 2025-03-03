@@ -33,17 +33,13 @@ namespace Report_Pubs.Controllers
             Name = g.Key}).ToList(), "Id", "Name"); ;
 
 
-            return View(all);
+            return View();
         }
 
         [HttpPost]
         public IActionResult GetBooksByAuthor(long authorId)
-        {
-            List<AuthorsBook> all = _unitOfWork.AuthorsBooks.GetAllAuthorsBooks();
-            var books = all
-                                 .Where(b => b.Id == authorId)
-                                 .ToList(); // جستجو کتاب‌ها براساس نویسنده
-            return PartialView("_BooksTable", books);  // ارسال داده‌ها به partial view
+        { 
+            return PartialView("_BooksTable", _unitOfWork.AuthorsBooks.GetBooksByAuthorID(authorId));  
         }
     }
 }

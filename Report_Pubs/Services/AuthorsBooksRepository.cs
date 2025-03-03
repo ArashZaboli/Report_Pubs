@@ -19,5 +19,15 @@ namespace Report_Pubs.Services
         {
             return _context.AuthorsBooks.ToList();
         }
+
+        public List<AuthorsBook> GetBooksByAuthorID(long authorId)
+        {
+            List<AuthorsBook> all = _context.AuthorsBooks.ToList();
+            string name = all.Where(b => b.Id == authorId).Select(p => p.FullName).First();
+            var books = all
+                                 .Where(b => b.FullName == name)
+                                 .ToList();
+            return books;
+        }
     }
 }
