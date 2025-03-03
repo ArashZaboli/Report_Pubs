@@ -22,7 +22,7 @@ namespace Report_Pubs
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IAnalysisRepository, AnalysisRepository>();
             builder.Services.AddScoped<IAuthorsBooksRepository, AuthorsBooksRepository>();
-
+            builder.Services.AddScoped<IBookTypeRepository, BookTypeRepository>();
 
             var app = builder.Build();
 

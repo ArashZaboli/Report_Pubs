@@ -10,36 +10,40 @@ namespace Report_Pubs.Controllers
     public class ReportController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-
         public ReportController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-
+        //-------------------------------------------------------
         public IActionResult BarChart()
         {
             IEnumerable<AnalysisByPublisher> analyses = _unitOfWork.Analysis.GetAllAnalysis();
             return View(analyses);
         }
 
+        //-------------------------------------------------------
         public IActionResult DropDownList()
         {
             List<AuthorsBook> all = _unitOfWork.AuthorsBooks.GetAllAuthorsBooks();
-            ViewBag.Authors = new SelectList(
-                all.Where(b => b.FullName != null).GroupBy(b => b.FullName).Select(g => new
-            {
-            Id = g.First().Id, 
-            Name = g.Key}).ToList(), "Id", "Name"); ;
-
-
+            ViewBag.Authors = new SelectList(all.Where(b => b.FullName != null).GroupBy(b => b.FullName).Select(g => new { Id = g.First().Id, Name = g.Key }).ToList(), "Id", "Name");
             return View();
         }
-
         [HttpPost]
         public IActionResult GetBooksByAuthor(long authorId)
-        { 
-            return PartialView("_BooksTable", _unitOfWork.AuthorsBooks.GetBooksByAuthorID(authorId));  
+        {
+            return PartialView("_BooksTable", _unitOfWork.AuthorsBooks.GetBooksByAuthorID(authorId));
+        }
+
+        //-------------------------------------------------------
+        public IActionResult CheckBoxList()
+        {
+            return View(_unitOfWork.BookTypes.GetAllTypes());
+        }
+        [HttpPost]
+        public IActionResult GetBooksByType([FromBody] List<string> bookTypes)
+        {
+            return Json(_unitOfWork.BookTypes.GetAllBooksByTypes(bookTypes));
         }
     }
 }

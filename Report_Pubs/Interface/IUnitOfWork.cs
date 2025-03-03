@@ -5,6 +5,8 @@
 
         IAnalysisRepository Analysis { get; }
         IAuthorsBooksRepository AuthorsBooks { get; }
+        IBookTypeRepository BookTypes { get; }
+
 
         void Save();
     }

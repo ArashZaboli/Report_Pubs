@@ -21,6 +21,8 @@ public partial class PubsContext : DbContext
 
     public virtual DbSet<AuthorsBook> AuthorsBooks { get; set; }
 
+    public virtual DbSet<BookType> BookTypes { get; set; }
+
     public virtual DbSet<Discount> Discounts { get; set; }
 
     public virtual DbSet<Employee> Employees { get; set; }
@@ -128,6 +130,27 @@ public partial class PubsContext : DbContext
                 .HasMaxLength(12)
                 .IsUnicode(false)
                 .IsFixedLength();
+        });
+
+        modelBuilder.Entity<BookType>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("BookType");
+
+            entity.Property(e => e.BookType1)
+                .HasMaxLength(12)
+                .IsUnicode(false)
+                .IsFixedLength()
+                .HasColumnName("Book Type");
+            entity.Property(e => e.Price).HasColumnType("money");
+            entity.Property(e => e.Publisher)
+                .HasMaxLength(40)
+                .IsUnicode(false);
+            entity.Property(e => e.ReleaseDate).HasColumnType("datetime");
+            entity.Property(e => e.Title)
+                .HasMaxLength(80)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<Discount>(entity =>

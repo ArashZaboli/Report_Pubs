@@ -1,0 +1,62 @@
+﻿@model List<string>
+
+<h4>Select Book Types</h4>
+<div class="container-fluid d-flex">
+    <div class="container" style="width: 25%;background-color: #72aca0;height: 100vh;">
+
+        @foreach (var type in Model)
+        {
+            <div class="form-check form-switch">
+            <label>
+                    <input type="checkbox" class="bookTypeFilter form-check-input" value="@type" /> @type
+            </label>
+            <br />
+            </div>
+        }
+    </div>
+
+    <div class="container" style="width: 75%;background-color: #adc1bd;height: 100vh;" id="booksTableContainer">
+        <table class="table table-striped table-bordered table-success" border="1" id="booksTable">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Publisher</th>
+                    <th> Release Date</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.bookTypeFilter').change(function () {
+            var selectedTypes = $('.bookTypeFilter:checked').map(function () {
+                return $(this).val();
+            }).get();
+
+            $.ajax({
+                url: '/Report/GetBooksByType',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(selectedTypes),
+                success: function (data) {
+                    var tableBody = $('#booksTable tbody');
+                    tableBody.empty();
+                    $.each(data, function (i, book) {
+                        tableBody.append(`<tr>
+                            <td>${book.title}</td>
+                            <td>${book.price}</td>
+                            <td>${book.publisher}</td>
+                            <td>${book.releaseDate}</td>
+                        </tr>`);
+                    });
+                }
+            });
+        });
+    });
+</script>
+
