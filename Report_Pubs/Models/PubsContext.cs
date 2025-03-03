@@ -15,6 +15,8 @@ public partial class PubsContext : DbContext
     {
     }
 
+    public virtual DbSet<AnalysisByPublisher> AnalysisByPublishers { get; set; }
+
     public virtual DbSet<Author> Authors { get; set; }
 
     public virtual DbSet<Discount> Discounts { get; set; }
@@ -44,6 +46,18 @@ public partial class PubsContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<AnalysisByPublisher>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("AnalysisByPublisher");
+
+            entity.Property(e => e.PubName)
+                .HasMaxLength(40)
+                .IsUnicode(false)
+                .HasColumnName("pub_name");
+        });
+
         modelBuilder.Entity<Author>(entity =>
         {
             entity.HasKey(e => e.AuId).HasName("UPKCL_auidind");

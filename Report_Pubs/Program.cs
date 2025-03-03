@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Report_Pubs.Models;
+
 namespace Report_Pubs
 {
     public class Program
@@ -8,6 +11,8 @@ namespace Report_Pubs
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<PubsContext>(option =>
+            option.UseSqlServer(builder.Configuration.GetConnectionString("MyyyConnection")));
 
             var app = builder.Build();
 
